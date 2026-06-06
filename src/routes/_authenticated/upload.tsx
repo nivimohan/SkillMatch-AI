@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState, useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import { useDropzone, type FileRejection } from "react-dropzone";
 import { z } from "zod";
 import { toast } from "sonner";
 import { UploadCloud, FileText, Loader2, ArrowLeft, CheckCircle2 } from "lucide-react";
@@ -31,7 +31,7 @@ function Upload() {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"idle" | "uploading" | "queued" | "analyzing">("idle");
 
-  const onDrop = useCallback((accepted: File[], rejected: { file: File; errors: { code: string }[] }[]) => {
+  const onDrop = useCallback((accepted: File[], rejected: FileRejection[]) => {
     if (rejected.length) {
       const err = rejected[0].errors[0];
       toast.error(err.code === "file-too-large" ? "File is too large. Max 5 MB." : "Only PDF and DOCX files are supported.");
