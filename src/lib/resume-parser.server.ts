@@ -10,7 +10,7 @@ export async function extractResumeText(
   if (lower.endsWith(".pdf")) {
     const pdf = await getDocumentProxy(bytes);
     const { text } = await extractText(pdf, { mergePages: true });
-    return typeof text === "string" ? text : text.join("\n");
+    return Array.isArray(text) ? text.join("\n") : String(text);
   }
   if (lower.endsWith(".docx")) {
     const files = unzipSync(bytes);

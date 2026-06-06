@@ -63,7 +63,7 @@ export const runAnalysis = createServerFn({ method: "POST" })
 
       await supabaseAdmin
         .from("analyses")
-        .update({ status: "complete", resume_text: text.slice(0, 20000), report })
+        .update({ status: "complete", resume_text: text.slice(0, 20000), report: report as unknown as Record<string, unknown> })
         .eq("id", data.id);
       return { ok: true, id: data.id };
     } catch (e) {
